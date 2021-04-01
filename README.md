@@ -2,6 +2,15 @@
 
 A terminal app to create and organise personal routines or events.
 
+## Release Checklist
+
+- Application runs
+- MVP features implemented
+- Testing included
+- Run Script included in src
+- All Documentation below complete
+- Kanban publicly accessible
+
 ## R3 - Sources
 
 *Any referenced sources if aplicable
@@ -20,6 +29,17 @@ A terminal app to create and organise personal routines or events.
 - *explain how a member of the target audience will use it
 
 ### R6 - Features
+
+MVP:
+
+- *F1
+  - *F1 Description
+- *F2
+  - *F2 Description
+- *F3
+  - *F3 Description
+
+Additional:
 
 - *F1
   - *F1 Description
