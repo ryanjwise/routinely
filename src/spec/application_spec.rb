@@ -17,4 +17,19 @@ RSpec.describe App do
       expect(app.routines).to eq []
     end
   end
+
+  describe 'Menu Navigation' do
+    let(:input) { StringIO.new('1') }
+    it 'should get input from the user' do
+      $stdin = input
+      expect(app.get_selection).to eq(1)
+    end
+  end
+
+  describe 'Routine CRUD' do
+    it 'should be able to add new routine items' do
+      app.add_routine('test routine')
+      expect(app.routines.last).to eq({name: 'test routine', total_time: 0})
+    end
+  end
 end
