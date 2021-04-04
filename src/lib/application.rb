@@ -68,10 +68,9 @@ class Menu
       puts "Name your routine:"
       add_routine(input_string)
     when 3
-      puts "Select Routine:"
+      puts "Select Routine (delete):"
     when 4
       puts "See you next time!"
-      pp @routines
       exit
     end
   end
@@ -79,5 +78,6 @@ class Menu
   ########## Mutate Methods ##########
   def add_routine(input)
     @routines << Routine.new(input)
+    @routines.last.populate_events
   end
 end
