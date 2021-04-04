@@ -1,4 +1,5 @@
 require_relative './lib/application'
+require_relative './lib/routine'
 
-routinely = App.new
+routinely = Menu.new
 routinely.run
