@@ -6,6 +6,8 @@ class Routine < Menu
     @events = []
     # event {name: event_name, time: event_time}
     @total_time = 0
+    @start_time = '0000'
+    @finish_time = calculate_time
   end
 
   def populate_events
@@ -24,13 +26,21 @@ class Routine < Menu
         i += 1
       end
     end
+    @finish_time = calculate_time
   end
 
   def view_routine
     puts @name.capitalize
     print_border
+    print @start_time
     @events.each do |event|
       print "#{'-' * event[:time]}|"
     end
+    print @finish_time
+    puts
+  end
+
+  def calculate_time
+    [@total_time / 60, @total_time % 60].join(':').to_s
   end
 end
