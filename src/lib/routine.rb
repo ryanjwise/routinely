@@ -12,7 +12,7 @@ class Routine < Menu
     looping = true
     i = 1
     while looping
-      puts "What is task #{i}?"
+      puts "What is event number #{i}? Hit enter to stop adding."
       event_name = input_string
       if event_name == ''
         looping = false
