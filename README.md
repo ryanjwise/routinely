@@ -125,6 +125,11 @@ Expected:
 - [terminal-table](https://rubygems.org/gems/terminal-table)
   - Tabular output
 
+Watching:
+
+- [Chronic](https://github.com/mojombo/chronic)
+  - Natural Language Time Parser
+
 System/Hardware Requirements:
 
 *
