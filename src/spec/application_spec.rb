@@ -22,7 +22,7 @@ RSpec.describe Menu do
     let(:input) { StringIO.new('1') }
     it 'should get input from the user' do
       $stdin = input
-      expect(app.get_selection).to eq(1)
+      expect(app.input_number).to eq(1)
     end
   end
 
