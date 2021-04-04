@@ -4,6 +4,7 @@ class Routine < Menu
   def initialize(name)
     @name = name
     @events = []
+    # event {name: event_name, time: event_time}
     @total_time = 0
   end
 
@@ -22,6 +23,14 @@ class Routine < Menu
         @total_time += event_time
         i += 1
       end
+    end
+  end
+
+  def view_routine
+    puts @name.capitalize
+    print_border
+    @events.each do |event|
+      print "#{'-' * event[:time]}|"
     end
   end
 end
