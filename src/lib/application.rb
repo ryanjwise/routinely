@@ -12,7 +12,7 @@ class Menu
       # system 'clear'
       print_welcome
       print_main_menu
-      process_main_menu(get_selection)
+      process_main_menu(input_number)
     end
   end
 
@@ -50,11 +50,11 @@ class Menu
   end
 
   ########## Get Methods ##########
-  def get_selection
+  def input_number
     gets.to_i
   end
 
-  def get_input
+  def input_string
     gets.strip
   end
 
@@ -63,10 +63,10 @@ class Menu
     case selection
     when 1
       puts "Select Routine:"
+      @routines[input_number - 1].view_routine
     when 2
       puts "Name your routine:"
-      add_routine(get_input)
-      @routines.last.populate_events
+      add_routine(input_string)
     when 3
       puts "Select Routine:"
     when 4
