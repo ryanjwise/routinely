@@ -9,7 +9,7 @@ class Menu
 
   def run
     loop do
-      system 'clear'
+      # system 'clear'
       print_welcome
       print_main_menu
       process_main_menu(get_selection)
@@ -19,7 +19,7 @@ class Menu
   ########## Print Methods ##########
   def print_welcome
     puts 'Welcome to Routinely'
-    puts '********************'
+    print_border
     puts
   end
 
@@ -33,11 +33,11 @@ class Menu
   end
 
   def print_routines
-    puts "You're routines:"
+    puts "Your routines:"
     print_border
     if @routines.length.positive?
-      @routines.each do |routine|
-        puts "Name: #{routine.name}, Total time: #{routine.total_time}"
+      @routines.each_with_index do |routine, index|
+        puts "#{index + 1}. Name: #{routine.name}, Total time: #{routine.total_time}"
       end
     else
       puts 'No saved routines'
