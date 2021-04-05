@@ -1,13 +1,20 @@
 class Routine < Menu
   attr_reader :name, :total_time
 
-  def initialize(name)
+  def initialize(
+    name,
+    events = [],
+    total_time = 0,
+    start_time = '0000',
+    finish_time = '0000'
+  )
     @name = name
-    @events = []
+    @events = events
     # event {name: event_name, time: event_time}
-    @total_time = 0
-    @start_time = '0000'
-    @finish_time = calculate_time
+    @total_time = total_time
+    @start_time = start_time
+    @finish_time = finish_time
+    calculate_time
   end
 
   def populate_events

@@ -3,7 +3,8 @@ class Menu
 
   def initialize
     @file_path = './data/routines.json'
-    @routines = load_data
+    @routines = []
+    load_data
     # routine {name: 'name', events: [], total_time: 90}
     # event {name: 'name', time: 5}
   end
@@ -90,11 +91,15 @@ class Menu
   end
 
   def load_data
-    if File.exist?(@file_path)
-      json_data = JSON.load(File.read(@file_path))
-      pp json_data
-    else
-      []
+    return unless File.exist?(@file_path)
+    json_data = JSON.parse(File.read(@file_path), symbolize_names: true)
+    json_data.each do |obj|
+      @routines << Routine.new(
+        obj[:name],
+        obj[:events],
+        obj[:total_time],
+        obj[:start_time],
+        obj[:finish_time])
     end
   end
 end
