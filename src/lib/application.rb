@@ -2,7 +2,8 @@ class Menu
   attr_accessor :routines
 
   def initialize
-    @routines = []
+    @file_path = './data/routines.json'
+    @routines = load_data
     # routine {name: 'name', events: [], total_time: 90}
     # event {name: 'name', time: 5}
   end
@@ -71,7 +72,6 @@ class Menu
       puts "Select Routine (delete):"
     when 4
       puts "See you next time!"
-      pp routines
       save_routines
       exit
     end
@@ -85,8 +85,16 @@ class Menu
 
   ###########      I/O      ###########
   def save_routines
-    File.open('./data/routines.json', 'w+') # Create new file with read/write permissions
-    # File.write('./data/routines.json', [])
-    File.write('./data/routines.json', @routines.to_json)
+    File.open(@file_path, 'w+') # Create new file with read/write permissions
+    File.write(@file_path, @routines.to_json)
+  end
+
+  def load_data
+    if File.exist?(@file_path)
+      json_data = JSON.load(File.read(@file_path))
+      pp json_data
+    else
+      []
+    end
   end
 end

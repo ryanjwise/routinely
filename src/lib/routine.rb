@@ -43,4 +43,15 @@ class Routine < Menu
   def calculate_time
     [@total_time / 60, @total_time % 60].join(':').to_s
   end
+
+  # Needs the (opt) parameter for some reason, no idea why
+  def to_json(opt)
+    {
+      name: @name,
+      events: @events,
+      total_time: @total_time,
+      start_time: @start_time,
+      finish_time: @finish_time
+    }.to_json
+  end
 end
