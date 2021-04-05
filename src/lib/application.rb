@@ -4,9 +4,7 @@ class Menu
   def initialize
     @file_path = './data/routines.json'
     @routines = []
-    load_data
-    # routine {name: 'name', events: [], total_time: 90}
-    # event {name: 'name', time: 5}
+    load_data # Populates @routines, therefor must follow in initialize
   end
 
   def run
@@ -19,6 +17,7 @@ class Menu
   end
 
   ########## Print Methods ##########
+
   def print_welcome
     puts 'Welcome to Routinely'
     print_border
@@ -53,6 +52,7 @@ class Menu
   end
 
   ########## Get Methods ##########
+
   def input_number
     gets.to_i
   end
