@@ -1,5 +1,6 @@
 class Routine < Menu
-  attr_reader :name, :total_time
+  attr_reader :total_time
+  attr_accessor :name
 
   def initialize(
     name,

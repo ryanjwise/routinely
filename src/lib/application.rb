@@ -29,9 +29,10 @@ class Menu
     print_routines
     puts 'Main Menu: '
     puts "1. Select Routine"
-    puts "2. Add Routine"
-    puts "3. Delete Routine"
-    puts "4. Exit"
+    puts "2. Rename Routine"
+    puts "3. Add Routine"
+    puts "4. Delete Routine"
+    puts "5. Exit"
   end
 
   def print_routines
@@ -67,16 +68,18 @@ class Menu
       puts "Select Routine:"
       @routines[input_number - 1].view_routine
     when 2
+      rename_routine
+    when 3
       puts "Name your routine:"
       add_routine(input_string)
-    when 3
+    when 4
       puts "Select Routine (delete):"
       delete_routine(input_number - 1)
-    when 4
+    when 5
       puts "See you next time!"
       save_routines
       exit
-    when 5
+    when 6
       puts "---Debug---"
       @routines.delete_at(1)
     end
@@ -90,6 +93,14 @@ class Menu
 
   def delete_routine(input)
     @routines.delete_at(input)
+  end
+
+  def rename_routine
+    puts "Select Routine:"
+    selection = @routines[input_number - 1]
+    puts "You have selected #{selection.name}, what would you like to rename it? Push Enter to cancel."
+    input = input_string
+    selection.name = input unless input == ''
   end
 
   ###########      I/O      ###########
