@@ -13,7 +13,7 @@ class Menu
       system 'clear'
       print_welcome
       print_routines
-      main_menu
+      main_menu_options
     end
   end
 
@@ -56,7 +56,7 @@ class Menu
     end
   end
 
-  def main_menu
+  def main_menu_options
     menu_options = [
       "Select Routine",
       "Rename Routine",
@@ -67,11 +67,37 @@ class Menu
     process_main_menu(@@prompt.select("Main Menu:", menu_options))
   end
 
+  def routines_menu_options
+    menu_options = [
+      { name: 'Set start time', disabled: '(Under Construction)' },
+      { name: 'Set end time', disabled: '(Under Construction)' },
+      { name: 'Move blocks', disabled: '(Under Construction)' },
+      { name: 'Edit Blocks', disabled: '(Under Construction)' },
+      { name: 'Delete Blocks', disabled: '(Under Construction)' },
+      { name: 'Add Blocks', disabled: '(Under Construction)' },
+      { name: 'Back to main menu' },
+      { name: 'Exit' }
+    ]
+    @@prompt.select('What would you like to do?', menu_options)
+  end
+
+  def routines_menu
+    routine = select_routine
+    looping = true
+    while looping
+      system 'clear'
+      routine.view_routine
+      selection = routines_menu_options
+      process_routine_menu(routine, selection)
+      looping = false if selection == 'Back to main menu'
+    end
+  end
+
   ########## Logic Methods ##########
   def process_main_menu(selection)
     case selection
     when "Select Routine"
-      view_routine
+      routines_menu
     when "Rename Routine"
       rename_routine
     when "Add Routine"
@@ -81,19 +107,38 @@ class Menu
       puts "Select Routine (delete):"
       delete_routine(input_number - 1)
     when "Exit"
-      puts "See you next time!"
-      save_routines
-      exit
+      exit_program
     when "Debug"
       puts "---Debug---"
       @routines.delete_at(1)
     end
   end
 
-  def view_routine
+  def process_routine_menu(routine, selection)
+    case selection
+    when "Set start time"
+    when "Set end time"
+    when "Move blocks"
+    when "Edit Blocks"
+    when "Delete Blocks"
+    when "Add Blocks"
+    when "Back to main menu"
+      # Handled in menu
+    when "Exit"
+      exit_program
+    end
+  end
+
+  def select_routine
     choices = {}
     @routines.each_with_index { |routine, index| choices[routine.name] = routine }
-    @@prompt.select("Select Routine", choices).view_routine
+    @@prompt.select("Select Routine", choices)
+  end
+
+  def exit_program
+    puts "See you next time!"
+    save_routines
+    exit
   end
 
   ########## Mutate Methods ##########
