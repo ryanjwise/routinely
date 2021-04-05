@@ -71,6 +71,8 @@ class Menu
       puts "Select Routine (delete):"
     when 4
       puts "See you next time!"
+      pp routines
+      save_routines
       exit
     end
   end
@@ -79,5 +81,12 @@ class Menu
   def add_routine(input)
     @routines << Routine.new(input)
     @routines.last.populate_events
+  end
+
+  ###########      I/O      ###########
+  def save_routines
+    File.open('./data/routines.json', 'w+') # Create new file with read/write permissions
+    # File.write('./data/routines.json', [])
+    File.write('./data/routines.json', @routines.to_json)
   end
 end
