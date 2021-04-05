@@ -1,4 +1,4 @@
-class Routine < Menu
+class Routine
   attr_reader :total_time
   attr_accessor :name
 
@@ -43,7 +43,6 @@ class Routine < Menu
 
   def view_routine
     puts @name.capitalize
-    print_border
     print @start_time
     @events.each do |event|
       print "#{'-' * event[:time]}|"
