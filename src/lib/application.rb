@@ -1,6 +1,7 @@
 class Menu
   attr_accessor :routines
 
+  @@prompt = TTY::Prompt.new
   def initialize
     @file_path = './data/routines.json'
     @routines = []
@@ -9,10 +10,10 @@ class Menu
 
   def run
     loop do
-      # system 'clear'
+      system 'clear'
       print_welcome
-      print_main_menu
-      process_main_menu(input_number)
+      print_routines
+      main_menu
     end
   end
 
@@ -24,16 +25,7 @@ class Menu
     puts
   end
 
-  def print_main_menu
-    print_routines
-    puts 'Main Menu: '
-    puts "1. Select Routine"
-    puts "2. Rename Routine"
-    puts "3. Add Routine"
-    puts "4. Delete Routine"
-    puts "5. Exit"
-  end
-
+  
   def print_routines
     puts "Your routines:"
     print_border
@@ -58,31 +50,50 @@ class Menu
   end
 
   def input_string
-    gets.strip
+    # gets.strip
+    @@prompt.ask("") do |q|
+      q.modify :strip, :down
+    end
+  end
+
+  def main_menu
+    menu_options = [
+      "Select Routine",
+      "Rename Routine",
+      "Add Routine",
+      "Delete Routine",
+      "Exit"
+    ]
+    process_main_menu(@@prompt.select("Main Menu:", menu_options))
   end
 
   ########## Logic Methods ##########
   def process_main_menu(selection)
     case selection
-    when 1
-      puts "Select Routine:"
-      @routines[input_number - 1].view_routine
-    when 2
+    when "Select Routine"
+      view_routine
+    when "Rename Routine"
       rename_routine
-    when 3
+    when "Add Routine"
       puts "Name your routine:"
       add_routine(input_string)
-    when 4
+    when "Delete Routine"
       puts "Select Routine (delete):"
       delete_routine(input_number - 1)
-    when 5
+    when "Exit"
       puts "See you next time!"
       save_routines
       exit
-    when 6
+    when "Debug"
       puts "---Debug---"
       @routines.delete_at(1)
     end
+  end
+
+  def view_routine
+    choices = {}
+    @routines.each_with_index { |routine, index| choices[routine.name] = routine }
+    @@prompt.select("Select Routine", choices).view_routine
   end
 
   ########## Mutate Methods ##########
