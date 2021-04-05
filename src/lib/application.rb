@@ -71,10 +71,14 @@ class Menu
       add_routine(input_string)
     when 3
       puts "Select Routine (delete):"
+      delete_routine(input_number - 1)
     when 4
       puts "See you next time!"
       save_routines
       exit
+    when 5
+      puts "---Debug---"
+      @routines.delete_at(1)
     end
   end
 
@@ -82,6 +86,10 @@ class Menu
   def add_routine(input)
     @routines << Routine.new(input)
     @routines.last.populate_events
+  end
+
+  def delete_routine(input)
+    @routines.delete_at(input)
   end
 
   ###########      I/O      ###########
