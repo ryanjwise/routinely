@@ -27,7 +27,7 @@ class Menu
     looping = true
     while looping
       system 'clear'
-      routine.view_routine
+      routine.print_events
       selection = routines_menu_options
       process_routine_menu(routine, selection)
       looping = false if selection == 'Back to main menu'
