@@ -3,6 +3,21 @@ class Routine
   attr_accessor :name
 
   @@prompt = TTY::Prompt.new
+  @@colors = [
+    :light_black,
+    :red,
+    :light_red,
+    :green,
+    :light_green,
+    :yellow,
+    :light_yellow,
+    :blue,
+    :light_blue,
+    :magenta,
+    :light_magenta,
+    :cyan,
+    :light_cyan
+  ]
 
   def initialize(
     name,
@@ -37,11 +52,11 @@ class Routine
 
   def print_events
     puts @name.capitalize
-    print @start_time
-    @events.each do |event|
-      print "#{'-' * event[:time]}|"
+    print "#{@start_time} |"
+    @events.each_with_index do |event, index|
+      print "#{'■'.colorize(:color => @@colors[index], :background => :black) * (event[:time] / 5)}"
     end
-    print @finish_time
+    print "| #{@finish_time}"
     puts
   end
 
