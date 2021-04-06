@@ -8,16 +8,37 @@ class Menu
     load_data # Populates @routines, therefor must follow in initialize
   end
 
+  ####### Core Application Loops ########
+
   def run
+    system 'clear'
+    print_welcome
     loop do
-      system 'clear'
-      print_welcome
       print_routines
       main_menu_options
+      system 'clear'
+    end
+  end
+
+  def routines_menu
+    routine = select_routine
+    return if routine == 'Cancel'
+
+    looping = true
+    while looping
+      system 'clear'
+      routine.view_routine
+      selection = routines_menu_options
+      process_routine_menu(routine, selection)
+      looping = false if selection == 'Back to main menu'
     end
   end
 
   ########## Print Methods ##########
+
+  def print_border
+    puts '-' * 10
+  end
 
   def print_welcome
     puts 'Welcome to Routinely'
@@ -25,7 +46,6 @@ class Menu
     puts
   end
 
-  
   def print_routines
     puts "Your routines:"
     print_border
@@ -39,32 +59,30 @@ class Menu
     print_border
   end
 
-  def print_border
-    puts '-' * 10
-  end
-
   ########## Get Methods ##########
 
-  def input_number
-    gets.to_i
-  end
-
-  def input_string
-    # gets.strip
-    @@prompt.ask("") do |q|
+  def input_string(query = '')
+    @@prompt.ask(query) do |q|
       q.modify :strip, :down
     end
   end
 
+  def select_routine
+    choices = {}
+    @routines.each { |routine| choices[routine.name] = routine }
+    choices[:Cancel] = 'Cancel'
+    @@prompt.select('Select Routine: ', choices, default: 'Cancel')
+  end
+
   def main_menu_options
     menu_options = [
-      "Select Routine",
-      "Rename Routine",
-      "Add Routine",
-      "Delete Routine",
-      "Exit"
+      'Select Routine',
+      'Rename Routine',
+      'Add Routine',
+      'Delete Routine',
+      'Exit'
     ]
-    process_main_menu(@@prompt.select("Main Menu:", menu_options))
+    process_main_menu(@@prompt.select('Main Menu:', menu_options))
   end
 
   def routines_menu_options
@@ -72,8 +90,8 @@ class Menu
       { name: 'Set start time', disabled: '(Under Construction)' },
       { name: 'Set end time', disabled: '(Under Construction)' },
       { name: 'Move blocks', disabled: '(Under Construction)' },
-      { name: 'Edit Blocks', },
-      { name: 'Delete Blocks', },
+      { name: 'Edit Blocks' },
+      { name: 'Delete Blocks' },
       { name: 'Add Blocks' },
       { name: 'Back to main menu' },
       { name: 'Exit' }
@@ -81,84 +99,70 @@ class Menu
     @@prompt.select('What would you like to do?', menu_options)
   end
 
-  def routines_menu
-    routine = select_routine
-    looping = true
-    while looping
-      # system 'clear'
-      routine.view_routine
-      selection = routines_menu_options
-      process_routine_menu(routine, selection)
-      looping = false if selection == 'Back to main menu'
-    end
-  end
-
   ########## Logic Methods ##########
   def process_main_menu(selection)
     case selection
-    when "Select Routine"
+    when 'Select Routine'
       routines_menu
-    when "Rename Routine"
+    when 'Rename Routine'
       rename_routine
-    when "Add Routine"
-      puts "Name your routine:"
-      add_routine(input_string)
-    when "Delete Routine"
-      puts "Select Routine (delete):"
-      delete_routine(input_number - 1)
-    when "Exit"
+    when 'Add Routine'
+      add_routine
+    when 'Delete Routine'
+      delete_routine
+    when 'Exit'
       exit_program
-    when "Debug"
-      puts "---Debug---"
-      @routines.delete_at(1)
+    when 'Debug'
     end
   end
 
   def process_routine_menu(routine, selection)
     case selection
-    when "Set start time"
-    when "Set end time"
-    when "Move blocks"
-    when "Edit Blocks"
+    when 'Set start time'
+    when 'Set end time'
+    when 'Move blocks'
+    when 'Edit Blocks'
       routine.edit_events
-    when "Delete Blocks"
+    when 'Delete Blocks'
       routine.delete_events
-    when "Add Blocks"
+    when 'Add Blocks'
       routine.populate_events
-    when "Back to main menu"
+    when 'Back to main menu'
       # Handled in menu
-    when "Exit"
+    when 'Exit'
       exit_program
     end
   end
 
-  def select_routine
-    choices = {}
-    @routines.each_with_index { |routine, index| choices[routine.name] = routine }
-    @@prompt.select("Select Routine", choices)
-  end
-
   def exit_program
-    puts "See you next time!"
+    puts 'See you next time!'
     save_routines
     exit
   end
 
   ########## Mutate Methods ##########
-  def add_routine(input)
-    @routines << Routine.new(input)
+  def add_routine
+    @routines << Routine.new(input_string('Name your routine:'))
     @routines.last.populate_events
   end
 
-  def delete_routine(input)
-    @routines.delete_at(input)
+  def delete_routine
+    selection = select_routine
+    return if selection == 'Cancel'
+
+    prompt = "Are you sure you wish to delete [#{selection.name}]?"
+    return unless @@prompt.yes?(prompt) do |q|
+      q.default false
+    end
+
+    @routines.delete(selection)
   end
 
   def rename_routine
-    puts "Select Routine:"
-    selection = @routines[input_number - 1]
-    puts "You have selected #{selection.name}, what would you like to rename it? Push Enter to cancel."
-    input = input_string
+    selection = select_routine
+    return if selection == 'Cancel'
+
+    input = input_string('What would you like to rename it? Push Enter to cancel.')
     selection.name = input unless input == ''
   end
 
