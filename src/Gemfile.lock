@@ -5,6 +5,8 @@ GEM
     json (2.5.1)
     pastel (0.8.0)
       tty-color (~> 0.5)
+    terminal-table (3.0.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
     tty-color (0.6.0)
     tty-cursor (0.7.1)
     tty-prompt (0.23.0)
@@ -15,6 +17,7 @@ GEM
       tty-screen (~> 0.8)
       wisper (~> 2.0)
     tty-screen (0.8.1)
+    unicode-display_width (1.7.0)
     wisper (2.0.1)
 
 PLATFORMS
@@ -23,6 +26,7 @@ PLATFORMS
 DEPENDENCIES
   colorize (~> 0.8.1)
   json (~> 2.5)
+  terminal-table (~> 3.0)
   tty-prompt
 
 BUNDLED WITH

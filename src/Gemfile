@@ -12,3 +12,5 @@ gem "tty-prompt"
 
 
 gem "colorize", "~> 0.8.1"
+
+gem "terminal-table", "~> 3.0"
