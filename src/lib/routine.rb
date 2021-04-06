@@ -17,7 +17,7 @@ class Routine
     @total_time = total_time
     @start_time = start_time
     @finish_time = finish_time
-    calculate_total_time
+    update_total_time
   end
 
   ####### Get Methods ##########
@@ -68,11 +68,11 @@ class Routine
       else
         event_time = update_time
         @events << { name: event_name, time: event_time }
-        @total_time += event_time
         i += 1
       end
     end
-    @finish_time = calculate_total_time
+    update_total_time
+    # @finish_time = calculate_total_time
   end
 
   def delete_events
@@ -86,6 +86,7 @@ class Routine
     event_array.each do |event|
       @events.delete(event)
     end
+    update_total_time
   end
 
   def edit_events
@@ -107,6 +108,7 @@ class Routine
       @events[index][:name] = event_name
       @events[index][:time] = event_time
     end
+    update_total_time
   end
 
   ###### Helper Methods #######
@@ -132,7 +134,19 @@ class Routine
 
   ######## Calculate Methods ########
 
-  def calculate_total_time
-    [@total_time / 60, @total_time % 60].join(':').to_s
+  def calculate_start_time
+    # [@total_time / 60, @total_time % 60].join(':').to_s
+  end
+
+  def calculate_end_time
+    # [@total_time / 60, @total_time % 60].join(':').to_s
+  end
+
+  def update_total_time
+    total_time = 0
+    @events.each do |event|
+      total_time += event[:time]
+    end
+    @total_time = total_time
   end
 end
