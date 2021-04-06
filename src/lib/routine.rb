@@ -77,7 +77,8 @@ class Routine
     looping = true
     i = @events.length + 1
     while looping
-      event_name = @@prompt.ask("What is event number #{i}?\nIf you're done inputting events, just hit enter!", default: '')
+      event_name = @@prompt.ask(
+        "What is event number #{i}?\nIf you're done inputting events, just hit enter!", default: '')
       if event_name == ''
         looping = false
       else

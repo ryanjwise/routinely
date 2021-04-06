@@ -50,7 +50,11 @@ class Menu
     if @routines.length.positive?
       rows = []
       @routines.each_with_index do |routine, index|
-        rows << ["#{index + 1}. #{routine.name}", routine.total_time, "#{'■'.colorize(:color => :light_blue, :background => :black) * (routine.total_time / 5)}"]
+        rows << [
+          "#{index + 1}. #{routine.name}",
+          routine.total_time,
+          "#{'■'.colorize(:color => :light_blue, :background => :black) * (routine.total_time / 5)}"
+        ]
       end
       table = Terminal::Table.new do |t|
         t.headings = ['Routine', 'Minutes', 'Time']
