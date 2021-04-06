@@ -47,16 +47,22 @@ class Menu
   end
 
   def print_routines
-    puts "Your routines:"
-    print_border
     if @routines.length.positive?
+      rows = []
       @routines.each_with_index do |routine, index|
-        puts "#{index + 1}. Name: #{routine.name}, Total time: #{routine.total_time}"
+        rows << ["#{index + 1}. #{routine.name}", routine.total_time, "#{'■'.colorize(:color => :light_blue, :background => :black) * (routine.total_time / 5)}"]
       end
+      table = Terminal::Table.new do |t|
+        t.headings = ['Routine', 'Minutes', 'Time']
+        t.rows = rows
+        t.style = { :border_left => false, :border_right => false }
+      end
+      puts table
     else
+      print_border
       puts 'No saved routines'
+      print_border
     end
-    print_border
   end
 
   ########## Get Methods ##########
