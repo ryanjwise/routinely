@@ -28,7 +28,7 @@ class Routine
       if event_name == ''
         looping = false
       else
-        event_time = @@prompt.slider("How long do you estimate it will take?", min: 5, max:120, step: 5, default: 5, format: "|:slider| %d minutes") 
+        event_time = set_time
         @events << {name: event_name, time: event_time}
         @total_time += event_time
         i += 1
@@ -38,8 +38,8 @@ class Routine
   end
 
   def delete_events
-    event_array = select_events
-    selection = to_sentence(event_array.map { |e| e[:name] })
+    event_array = select_events('delete')
+    selection = events_to_sentence(event_array)
     prompt = "You have selected events: \n[#{selection}]\n\n Are you sure you wish to delete them?"
     return unless @@prompt.yes?(prompt) do |q|
       q.default false
@@ -49,17 +49,48 @@ class Routine
     end
   end
 
-  def to_sentence(array)
+  def edit_events
+    event_array = select_events('edit')
+    pp event_array
+    return if event_array == []
+    selection = events_to_sentence(event_array)
+    prompt = "You have selected events: \n[#{selection}]\n\n Are you sure you wish to edit them?"
+    return unless @@prompt.yes?(prompt) do |q|
+      q.default true
+    end
+
+    event_array.each do |event|
+      index = @events.find_index(event)
+      event_name = change_name(@events[index][:name])
+      event_time = set_time(@events[index][:time])
+      @events[index][:name] = event_name
+      @events[index][:time] = event_time
+    end
+  end
+
+  def change_name(original_name)
+    event_name = @@prompt.ask("Rename #{original_name} or hit enter", default: '')
+    return original_name if event_name == ''
+
+    event_name
+  end
+
+  def set_time(default = 5)
+    @@prompt.slider("How long do you estimate it will take?", min: 5, max:120, step: 5, default: default, format: "|:slider| %d minutes") 
+  end
+
+  def events_to_sentence(event_array)
+    array = event_array.map{ |e| e[:name] }
     return array.to_s if array.nil? || array.empty?
-    return array.join(" ") if array.length == 1
+    return array.join(' ') if array.length == 1
 
     "#{array[0..-2].join(', ')} and #{array.last}"
   end
 
-  def select_events
+  def select_events(prompt)
     choices = {}
     @events.each_with_index { |event, index| choices[event[:name]] = event }
-    pp @@prompt.multi_select("Select Events to Delete", choices)
+    @@prompt.multi_select("Select Events to #{prompt}", choices)
   end
 
   def view_routine

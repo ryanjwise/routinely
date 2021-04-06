@@ -72,7 +72,7 @@ class Menu
       { name: 'Set start time', disabled: '(Under Construction)' },
       { name: 'Set end time', disabled: '(Under Construction)' },
       { name: 'Move blocks', disabled: '(Under Construction)' },
-      { name: 'Edit Blocks', disabled: '(Under Construction)' },
+      { name: 'Edit Blocks', },
       { name: 'Delete Blocks', },
       { name: 'Add Blocks' },
       { name: 'Back to main menu' },
@@ -85,7 +85,7 @@ class Menu
     routine = select_routine
     looping = true
     while looping
-      system 'clear'
+      # system 'clear'
       routine.view_routine
       selection = routines_menu_options
       process_routine_menu(routine, selection)
@@ -120,6 +120,7 @@ class Menu
     when "Set end time"
     when "Move blocks"
     when "Edit Blocks"
+      routine.edit_events
     when "Delete Blocks"
       routine.delete_events
     when "Add Blocks"
