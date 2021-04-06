@@ -73,8 +73,8 @@ class Menu
       { name: 'Set end time', disabled: '(Under Construction)' },
       { name: 'Move blocks', disabled: '(Under Construction)' },
       { name: 'Edit Blocks', disabled: '(Under Construction)' },
-      { name: 'Delete Blocks', disabled: '(Under Construction)' },
-      { name: 'Add Blocks', disabled: '(Under Construction)' },
+      { name: 'Delete Blocks', },
+      { name: 'Add Blocks' },
       { name: 'Back to main menu' },
       { name: 'Exit' }
     ]
@@ -121,7 +121,9 @@ class Menu
     when "Move blocks"
     when "Edit Blocks"
     when "Delete Blocks"
+      routine.delete_events
     when "Add Blocks"
+      routine.populate_events
     when "Back to main menu"
       # Handled in menu
     when "Exit"
