@@ -10,3 +10,5 @@ gem "json", "~> 2.5"
 
 gem "tty-prompt"
 
+
+gem "colorize", "~> 0.8.1"
