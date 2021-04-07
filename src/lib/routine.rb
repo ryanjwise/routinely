@@ -144,6 +144,13 @@ class Routine
     update_total_time
   end
 
+  def move_events
+    moving_event = (select_event('swap'))
+    follow_event_index = @events.find_index(select_event("place #{moving_event[:name]} in front of"))
+    @events.delete(moving_event)
+    @events.insert(follow_event_index, moving_event)
+  end
+
   ###### Helper Methods #######
   def events_to_sentence(event_array)
     array = event_array.map{ |e| e[:name] }
@@ -163,6 +170,12 @@ class Routine
     choices = {}
     @events.each_with_index { |event, index| choices[event[:name]] = event }
     @@prompt.multi_select("Select Events to #{prompt}", choices)
+  end
+
+  def select_event(prompt)
+    choices = {}
+    @events.each_with_index { |event, index| choices[event[:name]] = event }
+    @@prompt.select("Select Event to #{prompt}", choices)
   end
 
   ######## Calculate Methods ########

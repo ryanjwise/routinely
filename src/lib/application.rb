@@ -99,7 +99,7 @@ class Menu
     menu_options = [
       { name: 'Set start time', disabled: '(Under Construction)' },
       { name: 'Set end time', disabled: '(Under Construction)' },
-      { name: 'Move blocks', disabled: '(Under Construction)' },
+      { name: 'Move blocks' },
       { name: 'Edit Blocks' },
       { name: 'Delete Blocks' },
       { name: 'Add Blocks' },
@@ -131,6 +131,7 @@ class Menu
     when 'Set start time'
     when 'Set end time'
     when 'Move blocks'
+      routine.move_events
     when 'Edit Blocks'
       routine.edit_events
     when 'Delete Blocks'
