@@ -1,8 +1,4 @@
 require_relative '../lib/application'
-require_relative '../lib/routine'
-
-# Clear arguments
-ARGV.clear
 
 RSpec.describe Menu do
   subject(:menu) do
