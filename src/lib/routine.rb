@@ -54,9 +54,26 @@ class Routine
     puts @name.capitalize
     print "#{@start_time} |"
     @events.each_with_index do |event, index|
-      print "#{'■'.colorize(:color => @@colors[index], :background => :black) * (event[:time] / 5)}"
+      print "#{'■'.colorize(:color => @@colors[index % @@colors.length], :background => :black) * (event[:time] / 5)}"
     end
     print "| #{@finish_time}"
+    puts "\n\n"
+    tabulate_events
+  end
+
+  def tabulate_events
+    rows = []
+    @events.each_with_index do |event, index|
+      rows << [
+        "#{index + 1}. #{event[:name]}".colorize(:color => @@colors[index % @@colors.length], :background => :black),
+        event[:time]
+      ]
+    end
+    table = Terminal::Table.new do |t|
+      t.headings = ['Routine', 'Minutes']
+      t.rows = rows
+    end
+    puts table
     puts
   end
 
