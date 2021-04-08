@@ -130,7 +130,8 @@ class Menu
     case selection
     when 'Set start time'
     when 'Set finish time'
-      routine.calculate_finish_time
+      # routine.calculate_finish_time
+      routine.set_start_time('start')
     when 'Move blocks'
       routine.move_events
     when 'Edit Blocks'

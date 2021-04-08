@@ -186,9 +186,30 @@ class Routine
     # finish_time
   end
 
-  def set_start_time
-    prompt.ask('Which hour to start? Please provide number in range: 0-23?') { |q| q.in('0-23') }
+  def set_start_time(time)
+    hours = format_time(
+      @@prompt.ask('Which hour to start? Please provide number in range: 0-23?') do |q|
+        q.in "0-23"
+        q.messages[:range?] = "%{value} is of expected range. Please input a time between 0 and 23"
+      end
+    )
+    minutes = format_time(
+      @@prompt.ask('Which minute to start? Please provide number in range: 0-59?') do |q|
+        q.in "0-59"
+        q.messages[:range?] = "%{value} is of expected range. Please input a time between 0 and 59"
+      end
+    )
+    if time == 'start'
+      @start_time = "#{hours}:#{minutes}"
+      calculate_finish_time(@start_time)
+    else
+      @finish_time = "#{hours}:#{minutes}"
+      calculate_finish_time(@finish_time)
+    end
+  end
 
+  def format_time(num)
+    format('%02d', num)
   end
 
   def calculate_finish_time(start_time = @start_time)
@@ -198,9 +219,11 @@ class Routine
     return_minutes = (total_minutes + start_minutes)
     if return_minutes >= 60 # If 60 minutes or greater increment hours and return remaining minutes
       start_hours += 1 # Currently may increment hours beyond 23....
-      return_minutes = format('%02d', (return_minutes %= 60))
+      return_minutes = format_time(return_minutes %= 60)
+    else
+      return_minutes = format_time(return_minutes)
     end
-    return_hours = format('%02d', ((total_hours + start_hours) % 24)) # should return hours in day, looping at each day
+    return_hours = format_time((total_hours + start_hours) % 24) # should return hours in day, looping at each day
     @finish_time = "#{return_hours}:#{return_minutes}"
     "#{return_hours}:#{return_minutes}"
   end
