@@ -186,22 +186,23 @@ class Routine
     # finish_time
   end
 
-  def calculate_finish_time
-    # [@total_time / 60, @total_time % 60].join(':').to_s
-    # total_time
-    # start_time '00:00'
+  def set_start_time
+    prompt.ask('Which hour to start? Please provide number in range: 0-23?') { |q| q.in('0-23') }
+
+  end
+
+  def calculate_finish_time(start_time = @start_time)
     total_hours = @total_time / 60
     total_minutes = @total_time % 60
-    start_hours, start_minutes =  @start_time.split(':') # Split time string into seperate hour/minute vars.
-
+    start_hours, start_minutes =  start_time.split(':').map(&:to_i) # Split time string into seperate hour/minute vars.
     return_minutes = (total_minutes + start_minutes)
     if return_minutes >= 60 # If 60 minutes or greater increment hours and return remaining minutes
       start_hours += 1 # Currently may increment hours beyond 23....
-      return_minutes %= 60
+      return_minutes = format('%02d', (return_minutes %= 60))
     end
-    return_hours = (total_hours + start_hours) % 24 # should return hours in day, looping at each day
+    return_hours = format('%02d', ((total_hours + start_hours) % 24)) # should return hours in day, looping at each day
     @finish_time = "#{return_hours}:#{return_minutes}"
-    user_confirm?('debug')
+    "#{return_hours}:#{return_minutes}"
   end
 
   def update_total_time
