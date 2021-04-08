@@ -19,21 +19,13 @@ class Routine
     :light_cyan
   ]
 
-  def initialize(
-    name,
-    events = [],
-    total_time = 0,
-    start_time = '00:00',
-    finish_time = '00:00'
-  )
+  def initialize(name)
     @name = name
-    @events = events
+    @events = []
     # event {name: event_name, time: event_time}
-    @total_time = total_time
-    @start_time = start_time
-    @finish_time = finish_time
-    update_total_time
-    # calculate_finish_time
+    @total_time = 0
+    @start_time = '00:00'
+    @finish_time = '00:00'
   end
 
   ####### Get Methods ##########
@@ -87,6 +79,13 @@ class Routine
       start_time: @start_time,
       finish_time: @finish_time
     }.to_json
+  end
+
+  def from_json(events, total_time, start_time, finish_time)
+    @events = events
+    @total_time = total_time
+    @start_time = start_time
+    @finish_time = finish_time
   end
 
   ####### Mutate Methods ########
@@ -195,7 +194,7 @@ class Routine
     total_minutes = @total_time % 60
     start_hours, start_minutes =  @start_time.split(':') # Split time string into seperate hour/minute vars.
 
-    return_minutes = (total_minutes + start_minutes) 
+    return_minutes = (total_minutes + start_minutes)
     if return_minutes >= 60 # If 60 minutes or greater increment hours and return remaining minutes
       start_hours += 1 # Currently may increment hours beyond 23....
       return_minutes %= 60

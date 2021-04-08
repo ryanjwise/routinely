@@ -186,14 +186,11 @@ class Menu
 
   def load_data
     return unless File.exist?(@file_path)
+
     json_data = JSON.parse(File.read(@file_path), symbolize_names: true)
     json_data.each do |obj|
-      @routines << Routine.new(
-        obj[:name],
-        obj[:events],
-        obj[:total_time],
-        obj[:start_time],
-        obj[:finish_time])
+      @routines << Routine.new(obj[:name])
+      @routines.last.from_json(obj[:events], obj[:total_time], obj[:start_time], obj[:finish_time])
     end
   end
 end
