@@ -25,7 +25,7 @@ class Routine
     # event {name: event_name, time: event_time}
     @total_time = 0
     @start_time = '00:00'
-    @finish_time = '00:00'
+    @finish_time = calculate_finish_time(false)
   end
 
   ####### Get Methods ##########
@@ -186,25 +186,22 @@ class Routine
     # finish_time
   end
 
-  def set_start_time(time)
-    hours = format_time(
-      @@prompt.ask('Which hour to start? Please provide number in range: 0-23?') do |q|
-        q.in "0-23"
-        q.messages[:range?] = "%{value} is of expected range. Please input a time between 0 and 23"
-      end
-    )
-    minutes = format_time(
-      @@prompt.ask('Which minute to start? Please provide number in range: 0-59?') do |q|
-        q.in "0-59"
-        q.messages[:range?] = "%{value} is of expected range. Please input a time between 0 and 59"
-      end
-    )
+  def get_minutes(prompt, range)
+    @@prompt.ask("Which #{prompt} to start? Please provide number in range: #{range}?") do |q|
+      q.in range
+      q.messages[:range?] = "%{value} is of expected range. Please input a time between #{range}"
+    end
+  end
+
+  def set_time(time)
+    hours = format_time(get_minutes('hour', '0-23'))
+    minutes = format_time(get_minutes('minutes', '0-59'))
     if time == 'start'
       @start_time = "#{hours}:#{minutes}"
-      calculate_finish_time(@start_time)
+      @finish_time = calculate_finish_time(true)
     else
       @finish_time = "#{hours}:#{minutes}"
-      calculate_finish_time(@finish_time)
+      @start_time =  calculate_finish_time(false, @finish_time)
     end
   end
 
@@ -212,20 +209,18 @@ class Routine
     format('%02d', num)
   end
 
-  def calculate_finish_time(start_time = @start_time)
-    total_hours = @total_time / 60
-    total_minutes = @total_time % 60
-    start_hours, start_minutes =  start_time.split(':').map(&:to_i) # Split time string into seperate hour/minute vars.
-    return_minutes = (total_minutes + start_minutes)
-    if return_minutes >= 60 # If 60 minutes or greater increment hours and return remaining minutes
-      start_hours += 1 # Currently may increment hours beyond 23....
-      return_minutes = format_time(return_minutes %= 60)
-    else
-      return_minutes = format_time(return_minutes)
-    end
-    return_hours = format_time((total_hours + start_hours) % 24) # should return hours in day, looping at each day
-    @finish_time = "#{return_hours}:#{return_minutes}"
-    "#{return_hours}:#{return_minutes}"
+  def get_time(time_string)
+    split_hours, split_minutes = time_string.split(':').map(&:to_i)
+    (split_hours * 60) + split_minutes
+  end
+
+  def calculate_finish_time(additive, passed_time = @start_time)
+    passed_minutes = get_time(passed_time)
+    return_minutes = (passed_minutes + @total_time) if additive
+    return_minutes = (passed_minutes - @total_time) unless additive
+    hours = format_time((return_minutes / 60) % 24)
+    minutes = format_time(return_minutes % 60)
+    "#{hours}:#{minutes}"
   end
 
   def update_total_time

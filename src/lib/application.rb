@@ -97,7 +97,7 @@ class Menu
 
   def routines_menu_options
     menu_options = [
-      { name: 'Set start time', disabled: '(Under Construction)' },
+      { name: 'Set start time', },
       { name: 'Set finish time' },
       { name: 'Move blocks' },
       { name: 'Edit Blocks' },
@@ -129,9 +129,9 @@ class Menu
   def process_routine_menu(routine, selection)
     case selection
     when 'Set start time'
+      routine.set_time('start')
     when 'Set finish time'
-      # routine.calculate_finish_time
-      routine.set_start_time('start')
+      routine.set_time('finish')
     when 'Move blocks'
       routine.move_events
     when 'Edit Blocks'
