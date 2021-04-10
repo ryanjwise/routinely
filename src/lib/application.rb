@@ -138,6 +138,7 @@ class Menu
     when 'Add Blocks'
       routine.populate_events
     when 'Back to main menu'
+      save_routines
       # Handled in menu
     when 'Exit'
       exit_program
