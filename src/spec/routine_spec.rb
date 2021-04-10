@@ -55,37 +55,37 @@ RSpec.describe Routine do
 
       context 'modify start time' do
         it 'should output the correct end time from a default string' do
-          expect(routine.calculate_finish_time(true)).to eq('02:40')
+          expect(routine.calculate_finish_time).to eq('02:40')
         end
 
         it 'should output the correct end time from a specified string' do
-          expect(routine.calculate_finish_time(true, '12:00')).to eq('14:40')
+          expect(routine.calculate_finish_time('12:00')).to eq('14:40')
         end
 
         it 'should output the correct end time when number of minutes equals +1 hour' do
-          expect(routine.calculate_finish_time(true, '12:30')).to eq('15:10')
+          expect(routine.calculate_finish_time('12:30')).to eq('15:10')
         end
 
         it 'should output the correct end time when moving past midnight' do
-          expect(routine.calculate_finish_time(true, '23:00')).to eq('01:40')
+          expect(routine.calculate_finish_time('23:00')).to eq('01:40')
         end
       end
 
       context 'modify end time' do
         it 'should output the correct start time from a specified string' do
-          expect(routine.calculate_finish_time(false, '12:00')).to eq('09:20')
+          expect(routine.calculate_finish_time('12:00', additive: false)).to eq('09:20')
         end
 
         it 'should output the correct start time when number of minutes equals +1 hour' do
-          expect(routine.calculate_finish_time(false, '12:30')).to eq('09:50')
+          expect(routine.calculate_finish_time('12:30', additive: false)).to eq('09:50')
         end
 
         it 'should output the correct start time when moving past midnight' do
-          expect(routine.calculate_finish_time(false, '01:00')).to eq('22:20')
+          expect(routine.calculate_finish_time('01:00', additive: false)).to eq('22:20')
         end
 
         it 'should output the correct start time when moving past midnight' do
-          expect(routine.calculate_finish_time(false, '02:40')).to eq('00:00')
+          expect(routine.calculate_finish_time('02:40', additive: false)).to eq('00:00')
         end
       end
     end
