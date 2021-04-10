@@ -1,7 +1,6 @@
 class Menu
-  attr_accessor :routines
+  include Mixins
 
-  @@prompt = TTY::Prompt.new
   def initialize
     @file_path = './data/routines.json'
     @routines = []
@@ -41,9 +40,7 @@ class Menu
   end
 
   def print_welcome
-    puts 'Welcome to Routinely'
-    print_border
-    puts
+    puts asciify('Welcome to Routinely').colorize(color: @@colors.sample, background: :black)
   end
 
   def print_routines
@@ -59,7 +56,7 @@ class Menu
       table = Terminal::Table.new do |t|
         t.headings = ['Routine', 'Minutes', 'Time']
         t.rows = rows
-        t.style = { :border_left => false, :border_right => false }
+        t.style = { border_left: false, border_right: false }
       end
       puts table
     else
@@ -71,6 +68,7 @@ class Menu
 
   ########## Get Methods ##########
 
+  # Get a string from the user, pass a prompt, or act like a regular gets method
   def input_string(query = '')
     @@prompt.ask(query) do |q|
       q.modify :strip, :down
@@ -122,16 +120,15 @@ class Menu
       delete_routine
     when 'Exit'
       exit_program
-    when 'Debug'
     end
   end
 
   def process_routine_menu(routine, selection)
     case selection
     when 'Set start time'
-      routine.set_time('start')
+      routine.modify_routine_times('start')
     when 'Set finish time'
-      routine.set_time('finish')
+      routine.modify_routine_times('finish')
     when 'Move blocks'
       routine.move_events
     when 'Edit Blocks'
@@ -164,7 +161,7 @@ class Menu
     return if selection == 'Cancel'
 
     prompt = "Are you sure you wish to delete [#{selection.name}]?"
-    return unless @@prompt.yes?(prompt) do |q|
+    return unless user_confirm?(prompt, default: false) do |q|
       q.default false
     end
 
