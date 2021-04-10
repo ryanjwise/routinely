@@ -1,6 +1,6 @@
 class Routine
   attr_reader :total_time
-  attr_accessor :name
+  attr_accessor :name, :events
 
   include Mixins
 
