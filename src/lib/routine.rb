@@ -4,12 +4,8 @@ class Routine
 
   @@prompt = TTY::Prompt.new
   @@colors = [
-    :light_black,
-    :red,
-    :light_red,
     :green,
     :light_green,
-    :yellow,
     :light_yellow,
     :blue,
     :light_blue,
