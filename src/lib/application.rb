@@ -158,6 +158,10 @@ class Menu
 
     @routines << Routine.new(name)
     @routines.last.populate_events
+    raise StandardError, 'a routine requires at least one event' if @routines.last.is_empty?
+  rescue StandardError
+    puts 'A routine requires at least one event'
+    retry
   end
 
   def delete_routine
