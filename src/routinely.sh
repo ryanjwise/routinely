@@ -2,4 +2,4 @@
 
 bundle install
 
-ruby ./routinely.rb
+ruby ./routinely.rb $1 $2

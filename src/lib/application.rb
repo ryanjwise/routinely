@@ -1,4 +1,6 @@
 class Menu
+  attr_reader :routines
+  
   include Mixins
 
   def initialize
