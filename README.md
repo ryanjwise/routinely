@@ -169,3 +169,7 @@ The following gems are installed as dependencies for the application:
   - Adds colour output to the terminal
 - [terminal-table](https://rubygems.org/gems/terminal-table)
   - Helper methods for producing tables in the terminal
+
+#### Known Bugs
+
+- Error displaying 2 events with the same name in a routine when in a selection menu.
