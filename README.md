@@ -1,17 +1,6 @@
-# routinely
+# Routinely
 
 A terminal app to create and organise personal routines or events.
-
-## Release Checklist
-
-x- Application runs
-x- MVP features implemented
-- Testing included
-x- Run Script included in src
-- All Documentation below complete
-- Kanban publicly accessible
-
-[//]: # (Comment)
 
 ## R3 - Sources
 
@@ -142,20 +131,20 @@ Routinely was created and tested on Linux using `Ruby version 2.7.2`, and `Rspec
 3. Either install and run manually, or run the provided shell script:
     1. Install manually:
 
-       ```sh
+       ```text
         bundle install
         ruby routinely.rb
         ```
 
     2. Run the provided shell script:
 
-        ```sh
+        ```text
         ./routinely.sh
         ```
 
 4. Either run method can be run with the following command line arguments:
 
-    ```sh
+    ```text
     ruby routinely.rb [options] [arg_name]
 
     Options:

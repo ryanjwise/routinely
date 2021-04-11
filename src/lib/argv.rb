@@ -51,7 +51,7 @@ class ArgvMenu
     puts 'Options:'
     puts "\t-add\t\t\tJumps straight to the add new routine screen, then saves on completion and exits"
     puts "\t-view\t\t\tPrints available routines"
-    puts "\t-view [-r]\t\tPrints available routines, then allows user to select an option an jump straight to edit"
+    puts "\t-view [-r]\t\tPrints available routines, then allow user to select an option and jump straight to edit"
     puts "\t-view [routine_name]\tPrints the input routine and exits"
   end
 end

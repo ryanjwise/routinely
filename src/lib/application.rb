@@ -156,7 +156,6 @@ class Menu
   ########## Mutate Methods ##########
   def add_routine
     name = input_string('Name your routine, or hit enter to cancel:')
-    pp name
     return if name.nil?
 
     @routines << Routine.new(name)
