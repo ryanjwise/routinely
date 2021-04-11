@@ -11,8 +11,6 @@ RSpec.describe Routine do
     end
   end
 
-  # [{"name":"Routine1","events":[{"name":"stuff","time":15},{"name":"larger things","time":45},{"name":"shovelling","time":25},{"name":"pancakes","time":15},{"name":"Some more stuff","time":60}],"total_time":160,"start_time":"0000","finish_time":"1:25"}
-
   describe '#from_JSON' do
     before(:each) do
       events = [{ name: 'event1', time: 15 }, { name: 'event2', time: 45 }]
