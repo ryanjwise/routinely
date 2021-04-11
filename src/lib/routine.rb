@@ -138,7 +138,11 @@ class Routine
 
   def move_events
     moving_event = select_event('swap')
+    return if moving_event[:name] == 'Cancel'
+
     follow_event_index = @events.find_index(select_event("place #{moving_event[:name]} in front of"))
+    return if follow_event_index.nil?
+
     @events.delete(moving_event)
     @events.insert(follow_event_index, moving_event)
   end
@@ -183,6 +187,7 @@ class Routine
 
   def select_event(prompt)
     choices = generate_event_hash
+    choices[:Cancel] = { name:'Cancel', time: 0 }
     @@prompt.select("Select Event to #{prompt}", choices)
   end
 
