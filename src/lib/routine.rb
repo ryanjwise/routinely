@@ -138,13 +138,19 @@ class Routine
 
   def move_events
     moving_event = select_event('swap')
-    return if moving_event[:name] == 'Cancel'
+    return if moving_event[:name] == 'cancel'
 
-    follow_event_index = @events.find_index(select_event("place #{moving_event[:name]} in front of"))
+    moving_event_index = @events.find_index(moving_event)
+    follow_event_index = select_event("place #{moving_event[:name]} in front of", true)
+    follow_event_index = @events.find_index(follow_event_index) unless follow_event_index[:name] == 'end'
     return if follow_event_index.nil?
 
     @events.delete(moving_event)
-    @events.insert(follow_event_index, moving_event)
+    if follow_event_index.is_a? Integer
+      @events.insert(follow_event_index - (moving_event_index < follow_event_index ? 1 : 0), moving_event)
+    else
+      @events.push(moving_event)
+    end
   end
 
   def modify_routine_times(time)
@@ -185,9 +191,11 @@ class Routine
     @@prompt.multi_select("Select Events to #{prompt}", choices)
   end
 
-  def select_event(prompt)
+  def select_event(prompt, end_prompt = false)
     choices = generate_event_hash
-    choices[:Cancel] = { name:'Cancel', time: 0 }
+    pp choices
+    choices['Place at end'] = { name:'end', time: 0 } if end_prompt
+    choices[:Cancel] = { name:'cancel', time: 0 }
     @@prompt.select("Select Event to #{prompt}", choices)
   end
 
