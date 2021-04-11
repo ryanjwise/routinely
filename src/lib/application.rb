@@ -81,7 +81,7 @@ class Menu
     choices = {}
     @routines.each { |routine| choices[routine.name] = routine }
     choices[:Cancel] = 'Cancel'
-    @@prompt.select('Select Routine: ', choices, default: 'Cancel')
+    @@prompt.select('Select Routine: ', choices, default: 'Cancel', per_page: choices.length, cycle: true)
   end
 
   def main_menu_options
@@ -92,7 +92,7 @@ class Menu
       'Delete Routine',
       'Exit'
     ]
-    process_main_menu(@@prompt.select('Main Menu:', menu_options))
+    process_main_menu(@@prompt.select('Main Menu:', menu_options, per_page: menu_options.length, cycle: true))
   end
 
   def routines_menu_options
@@ -106,7 +106,7 @@ class Menu
       { name: 'Back to main menu' },
       { name: 'Exit' }
     ]
-    @@prompt.select('What would you like to do?', menu_options)
+    @@prompt.select('What would you like to do?', menu_options, per_page: menu_options.length, cycle: true)
   end
 
   ########## Logic Methods ##########

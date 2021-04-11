@@ -188,15 +188,14 @@ class Routine
 
   def select_events(prompt)
     choices = generate_event_hash
-    @@prompt.multi_select("Select Events to #{prompt}", choices)
+    @@prompt.multi_select("Select Events to #{prompt}, or push enter to cancel.", choices, per_page: choices.length, cycle: true)
   end
 
   def select_event(prompt, end_prompt = false)
     choices = generate_event_hash
-    pp choices
     choices['Place at end'] = { name:'end', time: 0 } if end_prompt
     choices[:Cancel] = { name:'cancel', time: 0 }
-    @@prompt.select("Select Event to #{prompt}", choices)
+    @@prompt.select("Select Event to #{prompt}", choices, per_page: choices.length, cycle: true)
   end
 
   def generate_event_hash
