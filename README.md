@@ -2,37 +2,30 @@
 
 A terminal app to create and organise personal routines or events.
 
-## R3 - Sources
+## Application purpose and scope
 
-Not Applicable
-
-## R4 - Location
-
-The [Application Repository is stored on Github](https://github.com/ryanjwise/routinely)
-
-## R5 - Software Development Plan
-
-### R5 - Application purpose and scope
-
-#### Application Intent
+### Application Intent
 
 - Routinely aims to provide a method for users to quickly create and reorder a sequence of events or tasks.
 
-#### The Problem
+### The Problem
 
 - Sometimes you need to plan out a series of tasks, or even a sequence of events. Usually, the best and quickest way to do this is to jot it down on a piece of paper. However, this becomes a problem if that sequence is something you want to refer to later or even refine. You could lose the paper and have to start again, or in the case of reshuffling need to rewrite the list. All well and good while the list is short, but once it reaches a certain length this becomes a tedious process. Routinely aims to solve this problem by allowing a user to quickly add a name and estimated time for each event and storing the subsequent sequence in a routine. This will allow the user to save, edit and even shuffle the sequence of events as they see fit.
 
-#### The Audience
+### The Audience
 
 - Routinely has a wide range of potential users:
   - Everyday
-    - Maybe you're somebody trying to work out a morning routine or plan the perfect exercise plan, Routinely's got you.
+    - Working out or planning a morning routine
+    - Establishing an exercise plan
   - Event Organisers
-    - Planning big events and need to work out the order things need to happen? Maybe your frontrunner is running late and you need to shuffle the plan around at the last minute to keep the show running. Routinely's got you.
+    - Planning event sequence
+    - Last minute shuffling of event plans
   - Developers
-    - Doing a routine task and need to know how long it'll take? Or starting a new project and want to be sure you don't skip a step? Stop guessing and use Routinely.
+    - Estimating time of routine sequences of events
+    - Creating workflows or proceedures to follow
 
-#### User Interaction
+### User Interaction
 
 - The first iteration of Routinely is a prototype operated through the terminal, but it's designed to be quick, easy and fast. There's no reason a GUI couldn't sit on top of it further down the line.
 - The first time a user fires up Routinely they will have one option, to create a new Routine!
@@ -41,16 +34,16 @@ The [Application Repository is stored on Github](https://github.com/ryanjwise/ro
   -Then it'll show you you're routine both graphically and as a table. You can select individual elements, change them, or even shuffle them around as you see fit. When you're done either quit or go back to the main menu and you're routine will be saved!
 - Any time you open routinely in the future you're saved routines will be shown in brief form at the top, you can select one to view or edit, or create a new routine from here!
 
-### R6 - Features
+## Features
 
-#### Minimum Viable Product:
+### Minimum Viable Product:
 
 1. Create, Read, Update, and Delete routines
     - To serve as anything more than a useful planning tool, Routinely must have the capability to Create, Store, Edit, and Delete Routines. To meet this requirement, routinely must have the following:
-File In/Out capabilities
-Ability to create objects based on user input
-Modification of created objects based on user input
-Deletion of created objects based on user input
+      - File In/Out capabilities
+      - Ability to create objects based on user input
+      - Modification of created objects based on user input
+      - Deletion of created objects based on user input
 1. Quick and Easy data entry
     - For Routinely to be competitive with pen and paper it needs to offer fast and effective data entry to its users. To achieve this it needs to have:
 	    - Simple and clear user Interface
@@ -74,9 +67,9 @@ Additional:
     - Print available Routines
     - Print a specific Routine
 
-### R7 - User Interaction
+## User Interaction
 
-#### UI Documentation & Usage
+### UI Documentation & Usage
 
 - I believe that Routinely is fairly straightforward in its use, and the menu system does a good job of guiding users throughout the process. (See Below for demo walkthrough)
 - Alternatively, if the user uses the `-h` or `--help` command line arguments, the following prompt will be displayed:
@@ -103,26 +96,26 @@ Options:
 
 - ![UI Walkthrough](./docs/ui-demo.png)
 
-#### Error Handling
+### Error Handling
 
 - The majority of errors that can be introduced into Routinely come in the form of erroneous user input.
 - To combat this the gem [tty-prompt](https://rubygems.org/gems/tty-prompt) was used to reduce the possible array of input errors. Where only an Integer should be received, `tty-prompt` has inbuilt catches to prevent strings from being entered. Typically the user will be prompted for correct input, then the prompt will first limit data methods if possible(the input time in the above demo is an example of this). When this is not an option, guard clauses are implemented to prevent erroneous input. For example, when entering a new routine, entering an empty string is presented as an option to cancel to the user. This however also functions to guard against errors introduced when trying to access a routine with no name.
 - The only error that should be displayed to the user is when they attempt to create a routine without any events. This will inform the user what went wrong, and return them to the start of the add_routine method where they can either restart inputting or cancel.
 
-### R8 - Control Flow Diagram
+## Control Flow Diagram
 
 ![Control Flow Diagram](./docs/uml-final-routinely.png)
 
-### R9 - Implementation Plan
+## Implementation Plan
 
 The [project management board can be found here](https://trello.com/b/NfJMRvaf/routinely).
 
 Below is a screenshot taken at the time of writting:
 ![Project Management Board](./docs/trello-board.png)
 
-### R10 - Instalation and Usage
+## Instalation and Usage
 
-#### Installation
+### Installation
 
 Routinely was created and tested on Linux using `Ruby version 2.7.2`, and `Rspec version 3.10.1` Niether are included as dependencies in the automated installation.
 
@@ -155,7 +148,7 @@ Routinely was created and tested on Linux using `Ruby version 2.7.2`, and `Rspec
             -view [routine_name]    Prints the input routine and exits
     ```
 
-#### Dependencies
+### Dependencies
 
 Routinely was created and tested on Linux using `Ruby version 2.7.2`, and `Rspec version 3.10.1` Niether are included as dependencies in the automated installation.
 
@@ -170,6 +163,6 @@ The following gems are installed as dependencies for the application:
 - [terminal-table](https://rubygems.org/gems/terminal-table)
   - Helper methods for producing tables in the terminal
 
-#### Known Bugs
+### Known Bugs
 
 - Error displaying 2 events with the same name in a routine when in a selection menu.
